@@ -1,0 +1,225 @@
+SCHEDULING APPLICATION SQL CODE:
+
+-- Customer table
+CREATE TABLE Customer (
+CustomerID INT PRIMARY KEY,
+CustomerName VARCHAR(50),
+CustomerGender VARCHAR(1),
+ContactNumber VARCHAR(20),
+Address VARCHAR(100),
+SignInDate DATE
+);
+
+-- ResourceA table
+CREATE TABLE ResourceA (
+HallID INT PRIMARY KEY,
+HallName VARCHAR(255),
+HallCapacity INT,
+Location VARCHAR(255),
+HallDescription VARCHAR(100),
+HallPricePerHour DECIMAL(10, 2)
+);
+
+-- ResourceB table
+CREATE TABLE ResourceB (
+ItemID INT PRIMARY KEY,
+ItemName VARCHAR(255),
+ItemCapacity INT,
+ItemDescription TEXT,
+ItemPricePerHour DECIMAL(10, 2)
+);
+
+
+-- Reservation table
+CREATE TABLE Reservation (
+ReservationID INT PRIMARY KEY,
+HallID INT,
+CustomerID INT,
+ReservationDate DATE,
+StartTime TIME,
+EndTime TIME,
+FOREIGN KEY (HallID) REFERENCES ResourceA(HallID),
+FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
+
+
+-- ResourceUtilization table
+CREATE TABLE ResourceUtilization (
+UtilizationID INT PRIMARY KEY,
+HallID INT,
+UtilizationDate DATE,
+StartTime TIME,
+EndTime TIME,
+FOREIGN KEY (HallID) REFERENCES ResourceA(HallID)
+);
+
+
+-- Availability table
+CREATE TABLE Availability (
+AvailabilityID INT PRIMARY KEY,
+HallID INT,
+AvailabilityDate DATE,
+StartTime TIME,
+EndTime TIME,
+IsAvailable BOOLEAN,
+FOREIGN KEY (HallID) REFERENCES ResourceA(HallID) ON DELETE CASCADE
+);
+
+
+-- UsageReport table
+CREATE TABLE UsageReport (
+ReportID INT PRIMARY KEY,
+HallID INT,
+ReportDate DATE,
+UtilizationDuration DECIMAL(10, 2),
+FOREIGN KEY (HallID) REFERENCES ResourceA(HallID) ON DELETE CASCADE
+);
+
+
+-- CustomerUsage table
+CREATE TABLE CustomerUsage (
+UsageID INT PRIMARY KEY,
+CustomerID INT,
+ResourceID INT,
+UsageDate DATE,
+StartTime TIME,
+EndTime TIME,
+FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
+
+-- Customer table info
+INSERT INTO Customer (CustomerID, CustomerName, CustomerGender, ContactNumber,
+Address, SignInDate)
+VALUES
+(1001, 'John Chan', 'M', '11111111', '123 Tun Mun', '2022-01-22'),
+(1002, 'Jane Park', 'F', '11111102', '456 HK Stree', '2022-03-01'),
+(1003, 'Mike John', 'M', '11113303', '789 Oak Tree', '2022-03-02'),
+(1004, 'Emma WhatsUp', 'F', '20202020', '987 Ocean Park', '2022-04-10'),
+(1005, 'David Potter', 'M', '82918291', '321 Glorios Park', '2022-05-15'),
+(1006, 'Sarah Brown', 'F', '67925384', '555 Universtiity', '2022-06-20'),
+(1007, 'Michael Wil', 'M', '12341234', '222 Tun Mun', '2022-07-05'),
+(1008, 'Jessica Me', 'F', '56785678', '999 Central Park', '2022-08-11'),
+(1009, 'Daniel Kim', 'M', '13141314', '111 Kowloon', '2022-09-25'),
+(1010, 'Sophia Who', 'F', '44664488', '444 Maple Street', '2022-10-30'),
+(1011, 'William Dick', 'M', '89804870', '777 Tun Mun', '2022-11-14'),
+(1012, 'Hugo Boss', 'F', '48848811', '999 Maple Street', '2022-12-20'),
+(1013, 'O\'Mac', 'M', '34567890', '333 Tsim Sha Tsui', '2023-01-25'),
+(1014, 'Emma stone', 'F', '98765432', '666 Tai Kok Tsui', '2023-02-28'),
+(1015, 'Me Who', 'M', '12457800', '222 Maple Lane', '2023-03-15'),
+(1016, 'Ava Eva', 'F', '55555555', '555 Shek O', '2023-04-01'),
+(1017, 'Jackie Chan', 'M', '68906890', '888 Wan Chai', '2023-05-16'),
+(1018, 'Mike Fu', 'F', '44449999', '689 Wan Chai', '2023-06-30'),
+(1019, 'Alex Will', 'M', '56676787', '666 Mid-Levels', '2023-07-15'),
+(1020, 'Sophia Chan', 'F', '88888888', '487 Tai Tam', '2023-08-31'),
+(1021, 'Michael reeves', 'M', '77777777', '697 Kennedy Town', '2023-09-14'),
+(1022, 'Dr Yin', 'F', '22222222', '676 Oak Tree', '2023-10-30'),
+(1023, 'Supper Man', 'M', '55444787', '777 HK Street', '2023-11-12'),
+(1024, 'Ocean Park', 'F', '55776688', '222 Quarry Bay', '2023-12-28'),
+(1025, 'Tina Tifa', 'M', '89898989', '555 Ocean Park', '2024-01-02');
+
+
+-- ResourceA table info
+INSERT INTO ResourceA (HallID, HallName, HallCapacity, Location, HallDescription,
+HallPricePerHour)
+VALUES
+(1201, 'Conference Hall', 150, 'Hong Kong Central', 'Spacious conference hall with large capacity', 150.00),
+(1202, 'Small Conference Room 1', 10, 'Hong Kong Central', 'Cozy conference room for small meetings', 50.00),
+(1203, 'Small Conference Room 2', 10, 'Hong Kong Central', 'Cozy conference room for small meetings', 50.00),
+(1204, 'Small Conference Room 3', 10, 'Hong Kong Central', 'Cozy conference room for small meetings', 50.00),
+(1205, 'Small Conference Room 4', 10, 'Hong Kong Central', 'Cozy conference room for
+small meetings', 50.00),
+(1206, 'Small Conference Room 5', 10, 'Hong Kong Central', 'Versatile conference room for
+medium-sized events', 50.00),
+(1207, 'Small Conference Room 6', 10, 'Hong Kong Central', 'Versatile conference room for
+medium-sized events', 50.00),
+(1208, 'Small Conference Room 7', 10, 'Hong Kong Central', 'Versatile conference room for
+medium-sized events', 50.00),
+(1209, 'Small Conference Room 8', 10, 'Hong Kong Central', 'Versatile conference room for
+medium-sized events', 50.00),
+(1210, 'Small Conference Room 9', 10, 'Hong Kong Central', 'Cozy conference room for
+small meetings', 50.00),
+(1211, 'Small Conference Room 10', 10, 'Hong Kong Central', 'Cozy conference room for
+small meetings', 50.00),
+(1212, 'Small Conference Room 11', 10, 'Hong Kong Central', 'Cozy conference room for
+small meetings', 50.00); 
+
+
+-- ResourceB table info
+INSERT INTO ResourceB (ItemID, ItemName, ItemCapacity, ItemDescription, ItemPricePerHour)
+VALUES
+(2001, 'LCD Projector01', 1, 'High-quality projector for presentations', 30.00),
+(2002, 'LCD Prohector02', 1, 'High-quality projector for presentations', 30.00),
+(2003, 'LCD Prohector03', 1, 'High-quality projector for presentations', 30.00),
+(2004, 'LCD Prohector04', 1, 'High-quality projector for presentations', 30.00),
+(2005, 'LCD Projector05', 1, 'High-quality projector for presentations', 30.00),
+(2006, 'LCD Projector06', 1, 'High-quality projector for presentations', 30.00),
+(2007, 'LCD Projector07', 1, 'High-quality projector for presentations', 30.00),
+(2008, 'Portable PC01', 1, 'Lightweight and easy to carry for meeting and work', 25.00),
+(2009, 'Portable PC02', 1, 'Lightweight and easy to carry for meeting and work', 25.00),
+(2010, 'Portable PC03', 1, 'Lightweight and easy to carry for meeting and work', 25.00),
+(2011, 'Portable PC04', 1, 'Lightweight and easy to carry for meeting and work', 25.00),
+(2012, 'Portable PC05', 1, 'Lightweight and easy to carry for meeting and work', 25.00);
+
+-- Availability table info
+INSERT INTO Availability (AvailabilityID, HallID, AvailabilityDate, StartTime, EndTime, IsAvailable)
+VALUES
+(5001, 1201, '2024-04-19', '09:00:00', '11:00:00', TRUE),
+(5002, 1201, '2024-04-20', '14:00:00', '16:00:00', TRUE),
+(5003, 1206, '2024-04-21', '10:00:00', '12:00:00', TRUE),
+(5004, 1207, '2024-04-22', '13:00:00', '15:00:00', TRUE),
+(5005, 1207, '2024-04-23', '09:00:00', '11:00:00', TRUE),
+(5006, 1212, '2024-04-24', '14:00:00', '16:00:00', TRUE),
+(5007, 2001, '2024-04-25', '10:00:00', '12:00:00', TRUE),
+(5008, 2008, '2024-04-26', '13:00:00', '15:00:00', TRUE);
+
+-- UsageReport table info
+INSERT INTO UsageReport (ReportID, HallID, ReportDate, UtilizationDuration)
+VALUES
+(6001, 2001, '2024-04-19', 2.5),
+(6002, 2002, '2024-04-20', 1.75),
+(6003, 2003, '2024-04-21', 2.0),
+(6004, 2004, '2024-04-22', 1.5),
+(6005, 2005, '2024-04-23', 2.25),
+(6006, 2006, '2024-04-24', 1.75),
+(6007, 2007, '2024-04-25', 2.0),
+(6008, 2008, '2024-04-26', 1.5);
+
+-- CustomerUsage table info
+INSERT INTO CustomerUsage (UsageID, CustomerID, ResourceID, UsageDate, StartTime, EndTime)
+VALUES
+(7001, 1021, 1201, '2024-04-19', '09:00:00', '11:00:00'), 
+(7002, 1001, 2002, '2024-04-20', '14:00:00', '16:00:00'), 
+(7003, 1001, 2002, '2024-04-21', '10:00:00', '12:00:00'), 
+(7004, 1013, 2004, '2024-04-22', '13:00:00', '15:00:00'),
+(7005, 1004, 1201, '2024-04-23', '16:00:00', '18:00:00'), 
+(7006, 1007, 2006, '2024-04-24', '09:00:00', '11:00:00'),
+(7007, 1017, 2007, '2024-04-25', '14:00:00', '16:00:00'), 
+(7008, 1022, 1211, '2024-04-26', '10:00:00', '12:00:00'), 
+(7009, 1011, 2009, '2024-04-27', '11:00:00', '13:00:00'); 
+
+
+
+
+
+-- Reservation table info
+INSERT INTO Reservation (ReservationID, HallID, CustomerID, ReservationDate, StartTime, EndTime)
+VALUES
+(3301, 1201, 1001, '2024-04-19', '09:00:00', '11:00:00'),
+(3302, 1201, 1001, '2024-04-20', '14:00:00', '16:00:00'),
+(3303, 1206, 1003, '2024-04-21', '10:00:00', '12:00:00'),
+(3404, 1204, 1004, '2024-04-28', '18:00:00', '22:00:00'),
+(3505, 1205, 1005, '2024-04-29', '13:00:00', '15:00:00'),
+(3606, 1203, 1006, '2024-05-01', '16:00:00', '18:00:00');
+
+
+-- ResourceUtilization table info
+INSERT INTO ResourceUtilization (UtilizationID, HallID, UtilizationDate, StartTime, EndTime)
+VALUES
+(3001, 1201, '2024-04-19', '09:00:00', '11:00:00'),
+(3002, 1202, '2024-04-20', '14:00:00', '16:00:00'),
+(3003, 1206, '2024-04-21', '10:00:00', '12:00:00'),
+(3004, 1204, '2024-04-28', '18:00:00', '22:00:00'),
+(3005, 1205, '2024-04-29', '13:00:00', '15:00:00'),
+(3006, 1203, '2024-05-01', '16:00:00', '18:00:00');
+
+
